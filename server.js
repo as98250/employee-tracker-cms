@@ -1,9 +1,6 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 
-const PORT = process.env.PORT || 3001;
-const app = inquirer();
-
 
 const db = mysql.createConnection(
     {
@@ -15,7 +12,7 @@ const db = mysql.createConnection(
     console.log(`Connected to the employee_db database.`)
 );
 
-initiateApplication();
+
 
 const initiateApplication = () => {
     inquirer.prompt([
@@ -87,7 +84,7 @@ function viewEmployees() {
 }
 
 function addEmployee() {
-    
+
 }
 
 function updateEmployee() {
@@ -96,15 +93,7 @@ function updateEmployee() {
 
 
 
-db.query('SELECT * FROM employee_db', function (err, results) {
-    if (err) return console.log(err);
-    res.json();
-});
-
-app.use((req, res) => {
-    res.status(404).end();
-});
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// db.query('SELECT * FROM employee_db', function (err, results) {
+//     if (err) return console.log(err);
+//     res.json();
+// });
