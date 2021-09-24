@@ -53,33 +53,33 @@ const initiateApplication = () => {
         }
     }).catch((err) => {
         console.log(err);
-        initiateApplication();
     })
 
 };
+initiateApplication();
 
-function viewDept() {
-    db.query(`SELECT * FROM department`, (err, results) => {
+function viewDep() {
+    db.query(`SELECT * FROM department`, (err, res) => {
         if (err) {
             console.log(err);
-        } res.json();
+        }
     });
 }
 
 
 function viewRoles() {
-    db.query(`SELECT * FROM role`, (err, results) => {
+    db.query(`SELECT * FROM role`, (err, res) => {
         if (err) {
             console.log(err);
-        } res.json();
+        }
     });
 }
 
 function viewEmployees() {
-    db.query(`SELECT * FROM employee`, (err, results) => {
+    db.query(`SELECT * FROM employee`, (err, res) => {
         if (err) {
             console.log(err);
-        } res.json();
+        }
     });
 }
 
