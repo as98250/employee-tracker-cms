@@ -1,11 +1,13 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
-
+const cTable = require('console.table');
 
 const db = mysql.createConnection(
     {
+        host: 'localost',
         user: 'root',
-        database: 'employee_db'
+        password: '',
+        database: 'employee_db',
     },
     console.log(`Connected to the employee_db database.`)
 );
@@ -42,16 +44,22 @@ const initiateApplication = () => {
             case 'View All Employees':
                 viewEmployees();
                 break;
+            case 'Add Department':
+                addDepartment();
+                break;
+            case 'Add Role':
+                addRole();
+                break;
             case 'Add an Employee':
                 addEmployee();
                 break;
-            case 'Update an employee role':
-                updateEmployee();
-                break;
+            // case 'Update an employee role':
+            //     updateEmployee();
+            //     break;
             case 'Exit':
-                console.log('You have exited the application');
+                console.log('Use CTRL+C to end the program');
                 break;
-        }
+        } return;
     }).catch((err) => {
         console.log(err);
     })
@@ -75,6 +83,7 @@ function viewRoles() {
         }
     });
 }
+
 
 function viewEmployees() {
     db.query(`SELECT 
@@ -125,14 +134,52 @@ SELECT * FROM employee`, (err,res)=> {
             message: 'Who is their manager'
         },
     ]).then((data => {
-        db.query
+        const queryStr = `
+        INSERT INTO employee (first_name, last_name, role_id, manager_id)
+        VALUEs (?,?,?,?)
+        `;
+        const params = [data.first_name, data.last_name, data.role_id, data.manager_id];
+
+        db.query(queryStr, params, (err) => {
+            if (err) throw err;
+            }
+        )
     }))
 })
 }
 
-function updateEmployee() {
+function addRole(){
+    inquirer.prompt([
+        {
+            name: 'role_title',
+            type: 'input',
+            message: 'Current role?'
+          },
+          {
+            name: 'role_salary',
+            type: 'input',
+            message: 'Current yearly salary?'
+          },
+          {
+            name: 'department_id',
+            type: 'input',
+            message: 'What is the department ID?'
+          }
+    ]).then((data => {
+        const queryStr = `
+        INSERT INTO role (role_title, role_salary, department_id)
+        VALUEs (?,?,?)
+        `;
+        const params = [data.role_title, data.role_salary, data.department_id];
 
+        db.query(queryStr, params, (err) => {
+            if (err) throw err;
+            }
+        )
+    }))
 }
+
+
 
 
 
